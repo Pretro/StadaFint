@@ -19,7 +19,7 @@ const AllCleaners = () => {
 	const phoneRef = useRef()
 	const availabilityRef = useRef()
 
-	// Metod för att hämta alla kunder från DB
+	// Metod för att hämta alla städare från DB
 	async function fetchCleaners() {
 		setIsLoading(true)
 		try {
@@ -71,7 +71,7 @@ const AllCleaners = () => {
 		}
 	}
 
-	// Hämta kunderna när komponenten är monterad
+	// Hämta städarna när komponenten är monterad
 	useEffect(() => {
 		fetchCleaners()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
