@@ -10,7 +10,7 @@ const AppProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
-		// Metod som sparar användarverifierad status är att användaren har loggat in tidigare och inte loggat ut
+		// Method to persist user authenticated state is user has logged in previously and didn't logout
 		async function persistUser() {
 			setIsLoading(true)
 			const token = localStorage.getItem("accessToken")
@@ -19,7 +19,7 @@ const AppProvider = ({ children }) => {
 				return setIsLoading(false)
 			}
 
-			// Begäran till servern för att få användarinformation genom att skicka auth jwt-token som header
+			// Request to server to get user information by passing the auth jwt token as header
 			try {
 				const { data: user } = await axios.get("/user", {
 					headers: {
@@ -27,7 +27,7 @@ const AppProvider = ({ children }) => {
 					},
 				})
 
-				// Updaterar context states
+				// Update context states
 				setToken(token)
 				setUser(user)
 				setIsLoading(false)
@@ -45,7 +45,7 @@ const AppProvider = ({ children }) => {
 		persistUser()
 	}, [])
 
-	// om user check inte har avslutats visas loader
+	// If persisting user check hasn't finished a loader should be rendered
 	if (isLoading) {
 		return <Loader />
 	}
@@ -59,7 +59,7 @@ const AppProvider = ({ children }) => {
 
 export default AppProvider
 
-// Hook för user app context
+// Custom hook to user app context
 export const useAppContext = () => {
 	return useContext(AppContext)
 }

@@ -1,48 +1,41 @@
 ## Client App Setup
 
-Installera Dependency
+Install Dependency
 
 bash
 npm i
 
-mac
-npm install
-
 ## Environment Variables
-Skapa en .env-fil och ange serverns webbadress som skulle vara http://localhost:5001/ för lokal server
 
-`REACT_APP_SERVER_URL=http://localhost:5001/`
+Create a .env file & provide the server url this would be http://localhost:5000/ for local server
 
-Starta App
+`REACT_APP_SERVER_URL=http://localhost:5000/`
+
+Run App
 
 bash
-npm start
-
-Mac
 npm start
 
 ## Server Setup
 
-Servern finns i ./server-directory
+The server is in the ./server directory
 
 bash
 cd ./server && npm i
 
-Mac
-cd ./server && npm install
 ## Environment Variables
 
-Skapa en .env-fil i ./server och tillhandahåll mongoDB-urln och en tokenhemlighet
+Create a .env file in ./server & provide the mongoDB url & a token secret
 
 `DB_URL=url-to-your-mongoDB`.  
 `TOKEN_SECRET=a-secure-random-string-to-encrypt-token`
 
-Kör Server under utvecklingb läge
+Run Server in development
 
-bash/Mac
+bash
 npm run dev
 
-Kör server i produktion
+Run Server in production
 
 bash
 npm start

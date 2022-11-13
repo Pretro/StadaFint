@@ -5,13 +5,13 @@ import { axios } from "../../../config"
 import { useAppContext } from "../../../contexts/AppProvider"
 import { ModalBackdrop } from "../../../components"
 
-const RegisteredOrders = () => {
-    const { token } = useAppContext()
+function RegisteredOrders() {
+	const { token } = useAppContext()
 
 	const [orders, setOrders] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 
-	// Method som hämtar ordrar och deras status
+	// Method to fetch all orders made and their status
 	async function fetchOrders() {
 		setIsLoading(true)
 		try {
@@ -24,12 +24,12 @@ const RegisteredOrders = () => {
 			setIsLoading(false)
 		} catch (err) {
 			setIsLoading(false)
-			alert("Kunde inte ladda ordrar.")
+			alert("Failed to load orders.")
 			console.log(err.response?.data.message || err.message)
 		}
 	}
 
-	// Startar metoden som hämtar ordrar
+	// Run the fetchOrders method when the component mounts
 	useEffect(() => {
 		fetchOrders()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,15 +39,15 @@ const RegisteredOrders = () => {
 		<div className="p-8 w-full ">
 			{isLoading && <Loader />}
 
-			<h1 className="text-lg mb-4">Registrerade ordrar</h1>
+			<h1 className="text-lg mb-4">Registered orders</h1>
 
 			<table className="border-collapse w-full overflow-x-auto bg-blue-400">
 				<thead className="bg-slate-200">
 					<tr className="border-b-gray-200 border-b-2 text-left">
-						<th className="p-3 pr-2">Namn</th>
+						<th className="p-3 pr-2">Name</th>
 						<th className="p-3 pr-2">Email</th>
-						<th className="p-3 pr-2">Telefon</th>
-						<th className="p-3 pr-2">Typ av städning</th>
+						<th className="p-3 pr-2">Phone no.</th>
+						<th className="p-3 pr-2">Cleaning type</th>
 						<th className="p-3 pr-2">Order status</th>
 					</tr>
 				</thead>
@@ -78,7 +78,7 @@ const OrderRow = ({ order, setIsLoading, fetchOrders }) => {
 	const [showEditModal, setShowEditModal] = useState(false)
 
 	useEffect(() => {
-		
+		// Logic to know the options to render depending on the current status of an order
 		if (selectedStatus === "pending") {
 			setStatusOptions(["approved", "rejected", "completed"])
 		} else if (selectedStatus === "approved") {
@@ -91,7 +91,7 @@ const OrderRow = ({ order, setIsLoading, fetchOrders }) => {
 		}
 	}, [selectedStatus])
 
-	
+	// Request to server to update the status of an order
 	const handleUpdateOrderStatus = async (status) => {
 		setIsLoading(true)
 		try {
@@ -164,7 +164,7 @@ const OrderRow = ({ order, setIsLoading, fetchOrders }) => {
 				</td>
 			</tr>
 
-		
+			{/* Modal for editing an order status */}
 			{showEditModal ? (
 				<ModalBackdrop>
 					<div className="bg-tranparentDark flex-1 grid place-items-center">
@@ -226,6 +226,3 @@ const OrderRow = ({ order, setIsLoading, fetchOrders }) => {
 		</>
 	)
 }
-
-
-

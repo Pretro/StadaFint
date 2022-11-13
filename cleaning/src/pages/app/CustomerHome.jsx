@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+
 import { axios } from "../../config"
 import Loader from "../../components/Loader"
 import { useAppContext } from "../../contexts/AppProvider"
@@ -6,7 +7,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 const Home = () => {
-    const { token } = useAppContext()
+	const { token } = useAppContext()
 	const navigate = useNavigate()
 
 	const [previousRequests, setPreviousRequests] = useState(null)
@@ -45,15 +46,15 @@ const Home = () => {
 						onClick={() => navigate("/new-request")}
 					>
 						<i className="fa-regular fa-plus mr-2"></i>
-						Ny förfråga
+						New request
 					</button>
 				</header>
 				<table className="border-collapse w-full">
 					<thead className="bg-slate-200">
 						<tr className="border-b-gray-200 border-b-2 text-left">
-							<th className="p-3 pr-2">Typ av förfrågan</th>
-							<th className="p-3 pr-2 ">Städare</th>
-							<th className="p-3 pr-2 ">Datum</th>
+							<th className="p-3 pr-2">Request type</th>
+							<th className="p-3 pr-2 ">Cleaner</th>
+							<th className="p-3 pr-2 ">Date</th>
 							<th className="p-3 pr-2 text-center">Status</th>
 						</tr>
 					</thead>

@@ -8,9 +8,10 @@ import { useAppContext } from "../../contexts/AppProvider"
 import Loader from "../../components/Loader"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+
 import DateTimePicker from "react-datetime-picker"
 
-// Constanter för olika typer av städtjänster
+// Constants for the types of cleaning services rendered
 const CLEANING_TYPES = [
 	{
 		id: "1",
@@ -40,7 +41,7 @@ const CustomerNewRequest = () => {
 	const [selectedCleaningType, setSelectedCleaningType] = useState(null)
 	const [dateTimeValue, setDateTimeValue] = useState()
 
-	// Calendar Status
+	// Calendar State
 	const [calendarIsOpen, setCalendarIsOpen] = useState(false)
 	const [clockIsOpen, setClockIsOpen] = useState(false)
 	const datePickerHeight = calendarIsOpen
@@ -50,11 +51,11 @@ const CustomerNewRequest = () => {
 		: 0
 	//
 
-	// Hämtar alla städare
+	// Get all cleaners
 	const getCleaners = async () => {
 		setIsLoading(true)
 		try {
-			// Hämtar alla städare från servern
+			// Request to server to get all the cleaners
 			const { data } = await axios.get("/user/cleaners", {
 				headers: {
 					authorization: "Bearer " + token,
@@ -65,19 +66,41 @@ const CustomerNewRequest = () => {
 		} catch (err) {
 			setIsLoading(false)
 			if (err.response?.data.message) {
-				alert("Kunde inte hämta städarlista. " + err.response.data.message)
+				alert("Failed to fetch cleaners. " + err.response.data.message)
 			} else {
-				alert("Kunde inte hämta städarlista. " + err.message)
+				alert("Failed to fetch cleaners. " + err.message)
 			}
 			console.log(err.response?.data.message || err.message)
 		}
 	}
 
-	// Method som väljer typ av tjönst
+	// Method to handle selection of a cleaning type
 	const handleSubmit = async (cleanerId) => {
+		// let serviceType = null
+
+		// // Check the type of cleaning service selected and map it to the way the server understands
+		// switch (selectedCleaningType) {
+		// 	case "Window Cleaning":
+		// 		serviceType = "windowCleaning"
+		// 		break
+		// 	case "Premium Cleaning":
+		// 		serviceType = "premiumCleaning"
+		// 		break
+		// 	case "Standard Cleaning":
+		// 		serviceType = "standardCleaning"
+		// 		break
+		// 	default:
+		// 		serviceType = null
+		// }
+
+		// // Validation check to catch a scenerio where a cleaning type and date/time isn't selected
+		// if (!serviceType) return alert("Please ensure cleaning type is valid.")
+		// if (!dateTimeValue)
+		// 	return alert("Please ensure you've selected date and time")
+
 		setIsLoading(true)
 		try {
-			// Skapar en order för vilken typ av tjänst
+			// Request to server to make an order for a type of cleaning
 			await axios.post(
 				"/user/service",
 				{
@@ -97,18 +120,18 @@ const CustomerNewRequest = () => {
 			navigate("/")
 		} catch (err) {
 			setIsLoading(false)
-			alert("Kunde inte skapa ordern.")
+			alert("Failed to make order.")
 			console.log(err.response?.data.message || err.message)
 		}
 	}
 
-	// Method som hanterar vilken typ av tjänst som har valts
+	// Method to handle selection of a cleaning type
 	const selectCleaner = async (cleanerId) => {
-		
+		// Validation check to catch a scenerio where a cleaning type and date/time isn't selected
 		if (!selectedCleaningType)
-			return alert(" Se till att rengöringstypen är giltig.")
+			return alert("Please ensure cleaning type is valid.")
 		if (!dateTimeValue)
-			return alert("Se till att du har valt datum och tid")
+			return alert("Please ensure you've selected date and time")
 
 		setShowCleanersModal(true)
 	}
@@ -200,10 +223,10 @@ const CustomerNewRequest = () => {
 							/>
 
 							<h2 className="text-2xl font-semibold">
-                            Beställningen har tagits emots
+								Order has been received
 							</h2>
 							<p className="my-2 opacity-70">
-                            En bekräftelse har skickats till din e-post
+								A confirmation has been sent to your email
 							</p>
 						</article>
 					</div>
@@ -222,17 +245,17 @@ const CustomerNewRequest = () => {
 							</span>
 
 							<h2 className="mb-4 text-xl font-medium">
-                            Välj en städare
+								Please select a cleaner
 							</h2>
 
 							<table className="border-collapse w-full">
 								<thead className="bg-slate-200">
 									<tr className="border-b-gray-200 border-b-2 text-left">
 										<th className="p-3 pr-2 font-medium">
-											Namn
+											Name
 										</th>
 										<th className="p-3 pr-2 font-medium">
-											Telefon
+											Phone no
 										</th>
 										<th className="p-3 pr-2 font-medium">
 											Status
@@ -241,7 +264,7 @@ const CustomerNewRequest = () => {
 								</thead>
 
 								<tbody>
-									{/* Lista av alla städare */}
+									{/* List of all cleaners */}
 
 									{cleaners?.map((cleaner) => (
 										<tr
@@ -267,8 +290,8 @@ const CustomerNewRequest = () => {
 													}`}
 												>
 													{cleaner.isAvailable
-														? "tillgängligt"
-														: "inte tillgänglig"}
+														? "available"
+														: "unavailable"}
 												</span>
 											</td>
 										</tr>

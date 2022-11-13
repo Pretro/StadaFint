@@ -14,27 +14,24 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// en dummy route för att kontrollera om servern körs
+// a dummy route to check if the server is running
 app.use('/healthz', (req, res) => res.status(200).json({ 'server status': 'healthy' }))
 
-// slutpunkterna för autentisering
+
+// the endpoints for authentication
 app.use('/auth', authRoutes)
-
-// AuthMiddleware Se till att användaren har giltig
-// referenser innan du kommer åt slutpunkterna nedan
+// The AuthMiddleware Ensure the user has valid
+// credentials before accessing the endpoints below
 app.use(AuthMiddleware)
-
-
-// UserAuthMiddleware Se till att användaren existerade tidigare
-// anropar användarroutes
+// The UserAuthMiddleware Ensure the user exist before
+// calling the userRoutes
 app.use('/user', UserAuthMiddleware, userRoutes)
-
-// AdminAuthMiddleware Se till att användaren finns och
-// har administratörsbehörighet innan du anropar adminRoutes
+// The AdminAuthMiddleware Ensure the user exist & 
+// has admin priviledge before calling the adminRoutes
 app.use('/admin', AdminAuthMiddleware, adminRoutes)
 
-// lyssnar på servern och väntar
-// databasanslutningar
+// listening to the server & awaiting
+// database connections
 app.listen(process.env.PORT || 5001, async () => {
     try {
         await mongoose.connect(process.env.DB_URL, {
@@ -42,8 +39,8 @@ app.listen(process.env.PORT || 5001, async () => {
             useUnifiedTopology: true,
         })
       
-      return console.log('server ansluten')
+      return console.log('server connected')
     } catch (error) {
-      console.error('fel vid anslutning till databasen', error)
+      console.error('error connecting to DB', error)
     }
   }) 

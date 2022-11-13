@@ -1,32 +1,32 @@
 const express = require('express')
-// Denna hjälpfunktion skulle förklaras i filerna
+// this helper function would be explained in the files
 const {Service} = require('../helpers/schema')
 const {serviceTypes} = require('../helpers/constants')
-const { getCleaners } = require('../controllers/cleaners')
+const { getCleaners } = require('../controllers/cleaner')
 const router = express.Router()
 
-// routerfunktionen skapar en grupp av ruttobjekt som skickas till huvudappen
-// Routern i den här gruppen skulle förlänga vägen för routern i huvudappen
-// dvs '/' skulle vara '/user/' & '/services' skulle vara '/user/services' eftersom denna router är registrerad som
-// '/user' i huvudappen
+// router function creates a group of route object that is passed to the main app
+// routes  in this group would extend the path of the router in the main app
+// i.e '/' would be '/user/' & '/services' would be '/user/services' bcoz this router is register as
+// '/user' in the main app
 
 /**
-  * req.userInfo som används under denna rutt görs tillgänglig av
-  * UserAuthMiddleware från huvudappen
-  */
+ * req.userInfo used throughout this routes is made available by
+ * the UserAuthMiddleware from the main app
+ */
 
-// Användars Request är info.
+// User Request is info, 
 router.get('/', async (req, res) => res.json(req.userInfo))
 
-// Användars Request är alla tjänster han har efterfrågat, för närvarande inte i bruk
-// kan vara en trevlig funktion i senare iterationer av appen
+// User Request all the services he has requested, currently not in use out
+// can be a nice feature un later iterations of the app
 router.get('/services', async (req, res) => {
-    // extrahera userId från userInfo
+    // extract userId from the userInfo
     const userId = req.userInfo._id
     try {
-        // hitta alla tjänster som denna begäran
+        // find all seervices that this requested
         const userServices = await Service.find({customer: userId}).sort({dateCreated:-1}).select('-customer').populate('cleaner').lean()
-        // returnera resultat
+        // return result
         res.json(userServices)
     } catch (error) {
         res.status(500).json({message: 'Server Error'})
@@ -34,20 +34,20 @@ router.get('/services', async (req, res) => {
 })
 router.get('/cleaners', getCleaners)
 
-// använderen begära en ny tjänst/service
+// use request a new service
 router.post('/service', async (req, res) => {
-     // extract the service from the req
+    // extract the service from the req
     const {serviceType, cleanerId, serviceTime} = req.body
-    // se till att en giltig serviceType efterfrågas, därför returnerar felet
+    // ensure a valid serviceType is requested hence return error
     if(!serviceType || !serviceTypes.includes(serviceType)){
         return res.status(400).json({message: 'invalide service type'})
     }
     if(!cleanerId || !serviceTime){
         return res.status(400).json({message: 'missing required. parameter'})
     }
-    // extrahera userId från userInfo
+    // extract userId from the userInfo
     const userId = req.userInfo._id
-    // instansierar en ny användare som ska sparas / skapas
+    // instantiating a new user to be saved / created
     const thisService = new Service({
         customer: userId,
         cleaner: cleanerId,
@@ -58,11 +58,11 @@ router.post('/service', async (req, res) => {
         
     })
     try {
-        // spara tjänst
+        // save service
         await thisService.save()
-        // returnera en lista över alla tjänster inklusive den nya tjänsten
+        // return a list of all services including the new service
         const userServices = await Service.find({customer: userId}).select('-customerId').lean()
-        // skicka lista till användare
+        // send list to user
         res.json(userServices)
         
     } catch (error) {

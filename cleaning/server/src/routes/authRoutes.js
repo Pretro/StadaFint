@@ -1,36 +1,36 @@
 const express = require('express')
-// denna hjälpfunktion skulle förklaras i filerna
+// this helper function would be explained in the files
 const {signToken} = require('../helpers/token')
 const {hashPassword, comparePassword} = require('../helpers/bcrypt')
 const {User} = require('../helpers/schema')
 
 
-// routerfunktionen skapar en grupp av ruttobjekt som skickas till huvudappen
-// rutter i den här gruppen skulle förlänga vägen för routern i huvudappen
-// dvs '/register' skulle vara '/auth/register' eftersom den här routern är registrerad som
-// '/auth' i huvudappen
+// router function creates a group of route object that is passed to the main app
+// routes  in this group would extend the path of the router in the main app
+// i.e '/register' would be '/auth/register' bcoz this router is register as
+// '/auth' in the main app
 const router = express.Router()
 
-// Registreringsväg
+// Registeration route
 router.post('/register', async (req, res) => {
-   // hämta de förväntade fälten från app request
+    // obtain the expected fields from the app request
     let {fullName, email, password, phoneNumber, address} = req.body
 
-    // det är viktigt att serialisera e-postmeddelandet innan du sparar till databasen
+    // it is essential to serialize the email before saving to the database
     email = email.trim().toLowerCase()
     try {
-        // hitta om en användare med den e-postadressen finns i databasen
+        // find if a user with that email exist in the database
         const user = await User.findOne({ email }).lean()
-        // om de gör det skulle vi returnera ett fel eftersom det inte är vettigt att
-         // har 2 användare med samma e-postadress
+        // if they do, we would return an error because it doesn't make sense to
+        // have 2 users with the same email
         if(user){
             return res.status(400).json({message: 'email has been registered'})
         }
-        // vi måste hasha användarlösenordet innan vi sparar till databasen
-         // normal säkerhetspraxis
+        // we need to hash the user password before saving to database
+        // normal security practise
         let hashedPassword = await hashPassword(password)
-        // instansierar en ny användare som ska sparas / skapas
-        const thisUser = new User({ // User är användarmodellen för databasen
+        // instantiating a new user to be saved / created
+        const thisUser = new User({ // User is the user model of the database
             fullName,
             email,
             hashedPassword,
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
             isAdmin: false,
             dateCreated: Date.now()
         })
-        // spara användare,
+        // saving user, 
         await thisUser.save()
         res.json({})
 
@@ -47,32 +47,32 @@ router.post('/register', async (req, res) => {
         res.status(500).json({message: 'Server Error'})
     }
 })
-// Registrerings Route
+// Registeration route
 router.post('/login', async (req, res) => {
-    // hämta de förväntade fälten från appförfrågan
+    // obtain the expected fields from the app request
     let {email, password} = req.body
-    // det är viktigt att serialisera e-postmeddelandet innan du sparar till databasen
+    // it is essential to serialize the email before saving to the database
     email = email.trim().toLowerCase()
     try {
-        // hitta om en användare med den e-postadressen om den finns i databasen
+        // find if a user with that email exist in the database
         const user = await User.findOne({ email }).select('+hashedPassword').lean()
-        // om det inte finns någon användare kan vi inte logga in returfel
+        // if no use, then we can't login return error
         if(!user){
-            return res.status(400).json({message: 'e-post finns inte'})
+            return res.status(400).json({message: 'email does not exist'})
         }
-        // om vi har ett användarlösenord jämför lösenordet med hashedPassword sparat i databasen
+        // if we have a user compare password to the hashedPassword saved on the database
         const isValidPassword = await  comparePassword(password, user.hashedPassword)
-        // om lösenordet är felaktigt returnerar felet
+        // if password is incorrenct return error
         if(!isValidPassword){
-            return res.status(400).json({message: 'Ogiltiga uppgifter'})
+            return res.status(400).json({message: 'Invalid Credentials'})
         }
-        // om lösenordet är korrekt, skapa autentiseringsuppgifter för att verifiera denna användare
+        // if password is correct, create a crendtials to verify this user 
         const token = signToken(user._id)
-       // skicka inloggningsuppgifter till användaren
+        // send credentials to user
         res.json({token})
 
     } catch (error) {
-        res.status(500).json({message: 'Serverfel'})
+        res.status(500).json({message: 'Server Error'})
     }
 })
 

@@ -6,8 +6,8 @@ import { useAppContext } from "../../../contexts/AppProvider"
 import Loader from "../../../components/Loader"
 import { ModalBackdrop } from "../../../components"
 
-const AllCustomers = () => {
-    const { token } = useAppContext()
+function AllCustomers() {
+	const { token } = useAppContext()
 	const [customers, setCustomers] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 	const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -22,7 +22,7 @@ const AllCustomers = () => {
 		email: "",
 	})
 
-	// Metod för att hämta alla kunder från DB
+	// Method to get all customers from DB
 	async function fetchCustomers() {
 		setIsLoading(true)
 		try {
@@ -40,19 +40,19 @@ const AllCustomers = () => {
 		}
 	}
 
-	// Hämta kunderna när komponenten är monterad
+	// Fetch the customers when the component is mounted
 	useEffect(() => {
 		fetchCustomers()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// Method som skcikar en request till servern för att radera en användare
+	// Method to send request to server to delete user
 	const handleDeleteUser = async () => {
-		// Bekräftar att användaren har blivit raderat
+		// Validation check to ensure a user to be deleted has been selected
 		if (!userIdToDelete) return
 		setIsLoading(true)
 
-		// Begäran att radera användaren
+		// Request to delete user
 		try {
 			await axios.delete(`/admin/user/${userIdToDelete}`, {
 				headers: {
@@ -65,16 +65,16 @@ const AllCustomers = () => {
 			fetchCustomers()
 		} catch (err) {
 			setIsLoading(false)
-			alert("Kunde inte radera användaren.")
+			alert("Failed to delete user.")
 			console.log(err.response?.data.message || err.message)
 		}
 	}
 
-	// Uppdaterar användaren information
+	// Method to send request to server to update user info
 	const handleSubmitUserEditInfo = async (e) => {
 		e.preventDefault()
 
-		// Validerar variabler
+		// Validate fields to ensure data is passed correctly
 		if (
 			!updateUserForm.address ||
 			!updateUserForm.email ||
@@ -84,7 +84,7 @@ const AllCustomers = () => {
 			return alert("Please ensure all fields are filled")
 		setIsLoading(true)
 
-		// Skickar en request till servern
+		// Send request to server
 		try {
 			const { data } = await axios.put(
 				`/admin/user/${updateUserForm.id}`,
@@ -101,7 +101,7 @@ const AllCustomers = () => {
 		} catch (err) {
 			setIsLoading(false)
 			alert(
-				"Kunde inte uppdatera användarinformation. " +
+				"Failed to update user information. " +
 					err.response?.data.message
 			)
 			console.log(err.response?.data.message || err.message)
@@ -112,20 +112,20 @@ const AllCustomers = () => {
 		<div className="p-8">
 			{isLoading && <Loader />}
 
-			<h1 className="text-lg mb-4">Alla Kunder</h1>
+			<h1 className="text-lg mb-4">All Customers</h1>
 
 			<table className="border-collapse w-full">
 				<thead className="bg-slate-200">
 					<tr className="border-b-gray-200 border-b-2 text-left">
-						<th className="p-3 pr-2">Namn</th>
+						<th className="p-3 pr-2">Name</th>
 						<th className="p-3 pr-2">Email</th>
-						<th className="p-3 pr-2">Telefon</th>
+						<th className="p-3 pr-2">Phone no.</th>
 						<th className="p-3 pr-2">Actions</th>
 					</tr>
 				</thead>
 
 				<tbody>
-					{/* Lista av alla kunder */}
+					{/* List of all customers */}
 					{customers?.map((customer) => (
 						<tr
 							key={customer._id}
@@ -141,7 +141,7 @@ const AllCustomers = () => {
 								<div className="flex gap-3 items-center">
 									<img
 										onClick={() => {
-                                            // Överför data av alla kunder för att uppdateras, detta gör att formulären kan veta den aktuella kundens data
+											// Pass current data of customer to be updated so the update form knows the current user's data
 											setUpdateUserForm({
 												id: customer._id,
 												fullName: customer.fullName,
@@ -158,7 +158,7 @@ const AllCustomers = () => {
 									/>
 									<img
 										onClick={() => {
-                                            // Öppna modal för att bekräfta om kunder borde raderas
+											// Open modal to confirm if customer should be deleteds
 											setShowDeleteModal(true)
 											// Set user ID so the component knows what user to delete
 											setUserIdToDelete(customer._id)
@@ -174,7 +174,7 @@ const AllCustomers = () => {
 				</tbody>
 			</table>
 
-			{/* Modal för att bekräfta att användaren är raderad */}
+			{/* Modal to confirm is user should be deleted */}
 			{showDeleteModal ? (
 				<ModalBackdrop>
 					<div className="bg-tranparentDark flex-1 grid place-items-center">
@@ -187,7 +187,7 @@ const AllCustomers = () => {
 							</span>
 
 							<h2 className="text-xl font-semibold">
-								Är du säker att du vill radera användaren?
+								Are you sure you want to delete this user?
 							</h2>
 
 							<div className="flex gap-4 justify-center mt-8">
@@ -195,7 +195,7 @@ const AllCustomers = () => {
 									onClick={handleDeleteUser}
 									className="px-4 py-2 rounded-md text-white bg-red-500 hover:bg-red-400"
 								>
-									Bekräfta
+									Confirm
 								</button>
 							</div>
 						</article>
@@ -203,7 +203,7 @@ const AllCustomers = () => {
 				</ModalBackdrop>
 			) : null}
 
-			{/* Modal för att visa redigeringsformulär för redigering av kundinformation */}
+			{/* Modal to show edit form for editing customer info */}
 			{showEditModal ? (
 				<ModalBackdrop>
 					<div className="bg-tranparentDark flex-1 grid place-items-center">
@@ -220,11 +220,11 @@ const AllCustomers = () => {
 								className="w-full max-w-md py-8rounded-lg"
 							>
 								<h2 className="text-2xl font-semibold mb-6 text-blue-600 text-center">
-									Editera användar info
+									Edit user info
 								</h2>
 
 								<label className="block mb-1" htmlFor="name">
-									Namn
+									Full Name
 								</label>
 								<input
 									required
@@ -242,7 +242,7 @@ const AllCustomers = () => {
 								/>
 
 								<label className="block mb-1" htmlFor="phone">
-									Telefon
+									Phone number
 								</label>
 								<input
 									required
@@ -281,7 +281,7 @@ const AllCustomers = () => {
 									className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white mt-2 mb-4 mx-auto block rounded-md"
 									type="submit"
 								>
-									Spara
+									Save
 								</button>
 							</form>
 						</article>
@@ -293,4 +293,3 @@ const AllCustomers = () => {
 }
 
 export default AllCustomers
-

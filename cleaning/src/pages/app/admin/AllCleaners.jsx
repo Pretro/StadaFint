@@ -4,8 +4,8 @@ import { useAppContext } from "../../../contexts/AppProvider"
 import Loader from "../../../components/Loader"
 import { ModalBackdrop } from "../../../components"
 
-const AllCleaners = () => {
-    const { token } = useAppContext()
+function AllCleaners() {
+	const { token } = useAppContext()
 	const [cleaners, setCleaners] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 	const [showModal, setShowModal] = useState(false)
@@ -14,12 +14,12 @@ const AllCleaners = () => {
 	const [serviceStandard, setServiceStandard] = useState(false)
 	const [servicePremium, setServicePremium] = useState(false)
 
-	// Referencer till input fields
+	// References to input fields
 	const nameRef = useRef()
 	const phoneRef = useRef()
 	const availabilityRef = useRef()
 
-	// Metod för att hämta alla städare från DB
+	// Method to get all customers from DB
 	async function fetchCleaners() {
 		setIsLoading(true)
 		try {
@@ -29,7 +29,6 @@ const AllCleaners = () => {
 				},
 			})
 			setCleaners(data)
-			console.log(data)
 			setIsLoading(false)
 		} catch (err) {
 			setIsLoading(false)
@@ -48,7 +47,7 @@ const AllCleaners = () => {
 				{
 					userName: nameRef.current.value,
 					phoneNumber: phoneRef.current.value,
-					isAvailable: availabilityRef.current.value,
+					isAvailable: availabilityRef.current.value === 'true',
 					services: {
 						windowCleaning: serviceWindow,
 						premiumCleaning: servicePremium,
@@ -66,12 +65,12 @@ const AllCleaners = () => {
 			fetchCleaners()
 		} catch (err) {
 			setIsLoading(false)
-			alert("Kunde inte registrera användare " + err.response?.data.message)
+			alert("Failed to register user " + err.response?.data.message)
 			console.log(err.response?.data.message || err.message)
 		}
 	}
 
-	// Hämta städarna när komponenten är monterad
+	// Fetch the customers when the component is mounted
 	useEffect(() => {
 		fetchCleaners()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,9 +88,9 @@ const AllCleaners = () => {
 								style={{ fontSize: "10px" }}
 								className="w-5 h-5 grid place-items-center text-white bg-purple-500 rounded-full"
 							>
-								F
+								W
 							</div>
-							<p>Fönsterputs</p>
+							<p>Window</p>
 						</li>
 						<li className="flex items-center gap-1 ">
 							<div
@@ -115,28 +114,28 @@ const AllCleaners = () => {
 				</div>
 
 				<header className="flex items-center mt-6 mb-4">
-					<h1 className="text-lg">Alla Städare</h1>
+					<h1 className="text-lg">All Cleaners</h1>
 					<button
 						onClick={() => setShowModal(true)}
 						className="ml-auto px-4 rounded-md py-2 text-sm bg-blue-500 border-none text-white border-2 hover:bg-blue-400"
 					>
 						<i className="fa-regular fa-plus mr-2"></i>
-						Lägg till städare
+						Add Cleaner
 					</button>
 				</header>
 
 				<table className="border-collapse w-full">
 					<thead className="bg-slate-200">
 						<tr className="border-b-gray-200 border-b-2 text-left">
-							<th className="p-3 pr-2">Namn</th>
-							<th className="p-3 pr-2">Telefon</th>
-							<th className="p-3 pr-2">Tjänster</th>
+							<th className="p-3 pr-2">Name</th>
+							<th className="p-3 pr-2">Phone no.</th>
+							<th className="p-3 pr-2">Services</th>
 							<th className="p-3 pr-2">Status</th>
 						</tr>
 					</thead>
 
 					<tbody>
-						{/* List av alla customers */}
+						{/* List of all customers */}
 						{cleaners?.map((cleaner) => (
 							<tr
 								key={cleaner._id}

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const thirtyDays = 60 * 60 * 24 * 30
 
-// Funktioner för att signera och verifiera användaruppgifter
+// Functions to sign & verify user credentials
 
 const signToken = (userId) => jwt.sign({
     key: userId

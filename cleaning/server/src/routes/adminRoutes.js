@@ -1,39 +1,39 @@
 const express = require('express')
-// denna hjälpfunktion skulle förklaras i filerna
+// this helper function would be explained in the files
 const {Service, User} = require('../helpers/schema')
 const {serviceStatus} = require('../helpers/constants')
-const {createCleaner, getCleaners, updateCleaner} = require ('../controllers/cleaners')
+const {createCleaner, getCleaners, updateCleaner} = require ('../controllers/cleaner')
 const {getUsers} = require('../controllers/user')
 const router = express.Router()
 
-// routerfunktionen skapar en grupp av ruttobjekt som skickas till huvudappen
-// routes i den här gruppen skulle förlänga vägen för routern i huvudappen
-// dvs '/users' skulle vara '/admin/users' eftersom den här routern är registrerad som
-// '/admin' i huvudappen
+// router function creates a group of route object that is passed to the main app
+// routes  in this group would extend the path of the router in the main app
+// i.e '/users' would be '/admin/users' bcoz this router is register as
+// '/admin' in the main app
 
-// admin får listan över alla användare och returnerar resultatet
+// admin gets the list of all users & return result
 router.get('/users', getUsers)
-// admin får listan över alla begärda tjänster och returresultat
+// admin gets the list of all requested services  & return result
 router.get('/services', async (req, res) => {
     try {
         const service = await Service.find({}).sort({dateCreated:-1}).populate('customer').populate('cleaner')
         res.json(service)
     } catch (error) {
         console.log(error)
-        res.status(500).json({message: 'Server Fel'})
+        res.status(500).json({message: 'Server Error'})
     }
 })
 
-// admin ta bort en användare med hans id, dvs :userId & returnera listan över de återstående användarna
+// admin delete a user by his id i.e :userId & return the list of the remaining users
 router.delete('/user/:userId', async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.userId)
         getUsers(req, res)
     } catch (error) {
-        res.status(500).json({message: 'Server Fel'})
+        res.status(500).json({message: 'Server Error'})
     }
 })
-// admin raderar en tjänst med hans id i.s :service Id och returnerar listan över de återstående tjänsterna
+// admin delete a service by his id i.e :serviceId & return the list of the remaining services
 router.delete('/service/:serviceId', async (req, res) => {
     try {
         await Service.findByIdAndDelete(req.params.serviceId)
@@ -41,41 +41,41 @@ router.delete('/service/:serviceId', async (req, res) => {
         res.json(services)
     } catch (error) {
         console.log(error)
-        res.status(500).json({message: 'Server Fel'})
+        res.status(500).json({message: 'Server Error'})
     }
 })
 
-// admin uppdatera en användare med hans id, dvs :userId & returnera den nya listan med användare
+// admin update a user by his id i.e :userId & return the new list of users
 router.put('/user/:userId', async (req, res) => {
-    // hämta de förväntade fälten från appförfrågan
+    // obtain the expected fields from the app request
     let {fullName, email, phoneNumber, address} = req.body
-    // det är viktigt att serialisera e-postmeddelandet innan du sparar till databasen
+    // it is essential to serialize the email before saving to the database
     email = email.trim().toLowerCase()
     try {
-        // hitta & uppdatera
+        // find & update
         await User.findByIdAndUpdate(req.params.userId, {fullName, email, phoneNumber, address})
         getUsers(req, res)
     } catch (error) {
         if(error?.codeName ==='DuplicateKey'){
-            return res.status(400).json({message: 'Användare med denna e-postadress finns'})
+            return res.status(400).json({message: 'User with this email exist'})
         }
-        res.status(500).json({message: 'Server Fel'})
+        res.status(500).json({message: 'Server Error'})
     }
 })
-// admin uppdatera en tjänst med hans id i.s :service ID och returnera den nya listan med tjänster
+// admin update a service by his id i.e :serviceId & return the new list of services
 router.put('/service/:serviceId', async (req, res) => {
     try {
-        // extrahera tjänsten från req
+        // extract the service from the req
         const {status} = req.body
-        // se till att en giltig tjänst efterfrågas, därför returnerar felet
+        // ensure a valid service is requested hence return error
         if(!status || !serviceStatus.includes(status)){
-            return res.status(400).json({message: 'ogiltig servicestatus'})
+            return res.status(400).json({message: 'invalide service status'})
         }
         await Service.findByIdAndUpdate(req.params.serviceId, {status})
         const service = await Service.find({}).populate('customer')
         res.json(service)
     } catch (error) {
-        res.status(500).json({message: 'Server Fel'})
+        res.status(500).json({message: 'Server Error'})
     }
 })
 

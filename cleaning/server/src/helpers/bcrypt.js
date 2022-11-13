@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-// funktion för att hasha och jämföra lösenord
+// function to hash & compare password
 
 const hashPassword = (password) => {
     return new Promise((resolve, reject) => {
