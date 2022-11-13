@@ -2,7 +2,7 @@ const express = require('express')
 // denna hjälpfunktion skulle förklaras i filerna
 const {Service, User} = require('../helpers/schema')
 const {serviceStatus} = require('../helpers/constants')
-const {createCleaner, getCleaners, updateCleaner} = require ('../controllers/cleaners')
+const {createCleaner, getCleaners, updateCleaner} = require ('../controllers/cleaner')
 const {getUsers} = require('../controllers/user')
 const router = express.Router()
 

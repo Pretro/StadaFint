@@ -24,7 +24,6 @@ app.use('/auth', authRoutes)
 // referenser innan du kommer åt slutpunkterna nedan
 app.use(AuthMiddleware)
 
-
 // UserAuthMiddleware Se till att användaren existerade tidigare
 // anropar användarroutes
 app.use('/user', UserAuthMiddleware, userRoutes)
