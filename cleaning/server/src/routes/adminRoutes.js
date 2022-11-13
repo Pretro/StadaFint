@@ -75,7 +75,7 @@ router.put('/service/:serviceId', async (req, res) => {
         const service = await Service.find({}).populate('customer')
         res.json(service)
     } catch (error) {
-        res.status(500).json({message: 'Server Fel'})
+        res.status(500).json({message: 'Server Error'})
     }
 })
 
