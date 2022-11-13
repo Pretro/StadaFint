@@ -28,25 +28,38 @@ const createCleaner = async (req, res) => {
 
     const payload = sanitazeCleanerInput(req.body)
     if(!payload){
-        return res.status(400).json({message: 'saknar nödvändig inmatning'})
+        return res.status(400).json({message: 'missing required input'})
     }
     try {
-        const newCleaner = new Cleaner({...payload})
+        const newCleaner = new Cleaner({...payload, dateCreated: Date.now()})
         await newCleaner.save()
         res.json({})
     } catch (error) {
-        res.status(500).json({message: 'Server Fel'})
+        res.status(500).json({message: 'Server Error'})
     }
 } 
-const getCleaners = () => {
+const getCleaners = async (req, res) => {
 
+    const availablility = req.userInfo.isAdmin ? {} : {isAvailable: true}
+    try {
+        const cleaners = await Cleaner.where(availablility).sort({dateCreated:-1}).select('+services')
+        res.json(cleaners)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: 'Server Error'})
+    }
 } 
-const updateCleaner = () => {
-
+const updateCleaner = async (req, res) => {
+    const payload = sanitazeCleanerInput(req.body)
+    if(!payload){
+        return res.status(400).json({message: 'missing required input'})
+    }
+    try {
+        await Cleaner.findByIdAndUpdate(req.params.cleanerId, payload)
+        res.json({})
+    } catch (error) {
+        res.status(500).json({message: 'Server Error'})
+    }
 }
-
-// const deleteCleaners = () => {
-
-// }
 
 module.exports = {createCleaner, getCleaners, updateCleaner}
