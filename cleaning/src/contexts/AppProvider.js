@@ -45,9 +45,11 @@ const AppProvider = ({ children }) => {
 		persistUser()
 	}, [])
 
+//	return <div>context</div>
+
 	// om user check inte har avslutats visas loader
 	if (isLoading) {
-		return <Loader />
+		return <Loader/>
 	}
 
 	return (
