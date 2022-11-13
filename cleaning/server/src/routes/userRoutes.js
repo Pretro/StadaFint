@@ -2,7 +2,7 @@ const express = require('express')
 // Denna hjälpfunktion skulle förklaras i filerna
 const {Service} = require('../helpers/schema')
 const {serviceTypes} = require('../helpers/constants')
-const { getCleaners } = require('../controllers/cleaner')
+const { getCleaners } = require('../controllers/cleaners')
 const router = express.Router()
 
 // routerfunktionen skapar en grupp av ruttobjekt som skickas till huvudappen

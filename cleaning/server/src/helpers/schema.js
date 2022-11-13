@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose')
 
 // Databasschemat dvs databasstruktur
@@ -16,7 +17,7 @@ const User = mongoose.model('User', userSchema)
 const serviceSchema = new mongoose.Schema({
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     cleaner: { type: mongoose.Schema.Types.ObjectId, ref: 'Cleaner' },
-    type: String, // 'fönsterputsning' | 'premium städning' | "standard städning"
+    serviceTime: Date, // 'fönsterputsning' | 'premium städning' | "standard städning"// 'window cleaning' | 'premium cleaning' | 'standard cleaning'
     status: String, // väntar | godkänd | avvisade
     dateCreated: Date,
     dateApproved: Date,
@@ -30,6 +31,14 @@ const cleanerSchema = new mongoose.Schema({
     isAvailable: Boolean,
     dateCreated: Date,
     services: {
+        type: {
+            windowCleaning: Boolean,
+            premiumCleaning: Boolean,
+            standardCleaning: Boolean
+        },
+        select: false,
+    },
+    servicese: {
         windowCleaning: Boolean,
         premiumCleaning: Boolean,
         standardCleaning: Boolean,
