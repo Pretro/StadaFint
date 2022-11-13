@@ -3,6 +3,7 @@ import { Player } from "@lottiefiles/react-lottie-player"
 import loadingAnimation from "../assets/animations/loading.json"
 import ModalBackdrop from "./ModalBackdrop"
 
+// Loader-komponent att rendera vid laddningstillstånd
 const Loader = () => {
   return (
     <ModalBackdrop>
