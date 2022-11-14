@@ -8,20 +8,20 @@ function Signup() {
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	// References to input fields
+	// Referenser till inmatningsfält
 	const nameRef = useRef()
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const phoneRef = useRef()
 	const addressRef = useRef()
 
-	// Method to handle submitting user's data for registration and then logging in
+	// Metod för att hantera att skicka in användarens data för registrering och sedan logga in
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		setIsLoading(true)
 
 		try {
-			// Send request to server to register the user
+			// Skicka begäran till servern för att registrera användaren
 			const { status } = await axios.post("/auth/register", {
 				fullName: nameRef.current.value,
 				email: emailRef.current.value,
@@ -30,7 +30,7 @@ function Signup() {
 				address: addressRef.current.value,
 			})
 
-			// Navigate to Login screen for user to log in
+			// Navigera till inloggningsskärmen så att användaren kan logga in
 			if (status === 200) {
 				navigate("/login")
 			}

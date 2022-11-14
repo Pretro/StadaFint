@@ -205,12 +205,12 @@ const AllCleaners = () => {
 								&#x2715;
 							</span>
 							<h2 className="text-3xl font-semibold mb-6 text-blue-600">
-								Add Cleaner
+								Lägg till städare
 							</h2>
 
 							<form onSubmit={handleAddCleaner}>
 								<label className="block mb-1" htmlFor="name">
-									Name
+									Namn
 								</label>
 								<input
 									required

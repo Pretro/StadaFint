@@ -39,7 +39,7 @@ const Home = () => {
 
 			<main className="w-full max-w-4xl mx-auto">
 				<header className="pt-4 pb-6 flex items-center">
-					<h2 className="text-lg font-semibold">Previous requests</h2>
+					<h2 className="text-lg font-semibold">Tidigare förfrågningar</h2>
 					<button
 						className="ml-auto px-4 rounded-md py-2 text-sm bg-blue-500 border-none text-white border-2 hover:bg-blue-400"
 						onClick={() => navigate("/new-request")}

@@ -14,28 +14,28 @@ function Login() {
 	const emailRef = useRef()
 	const passwordRef = useRef()
 
-	// Method to handle user submitting data to login
+	// Metod för att hantera användare som skickar in data för att logga in
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		setIsLoading(true)
 
 		try {
-			// Request to server using user email and password to get the auth jwt token
+			// Begäran till servern med användarens e-post och lösenord för att få auth jwt-token
 			const { data } = await axios.post("/auth/login", {
 				email: emailRef.current.value,
 				password: passwordRef.current.value,
 			})
 
-			// Request to server to get user's information by passing the auth token as authorization header
+			// Begäran till servern för att få användarens information genom att skicka autentiseringstoken som auktoriseringshuvud
 			const { data: user } = await axios.get("/user", {
 				headers: {
 					authorization: "Bearer " + data.token,
 				},
 			})
-			// Update app context
+			// Uppdatera appkontext
 			setToken(data.token)
 			setUser(user)
-			// Set auth token to localstorage which is to be used for persisting user authentication
+			// Ställ in autentiseringstoken till lokal lagring som ska användas för beständig användarautentisering
 			localStorage.setItem("accessToken", data.token)
 		} catch (err) {
 			localStorage.removeItem("accessToken")
@@ -61,11 +61,11 @@ function Login() {
 				}}
 			>
 				<h2 className="text-3xl font-semibold mb-6 text-blue-600">
-					Login
+					Logga in
 				</h2>
 
 				<label className="block mb-1 text-md" htmlFor="email">
-					Email
+					E-post
 				</label>
 				<input
 					ref={emailRef}
@@ -77,7 +77,7 @@ function Login() {
 					required
 				/>
 				<label className="block mb-1" htmlFor="password">
-					Password
+					Lösenord
 				</label>
 				<input
 					ref={passwordRef}
@@ -93,7 +93,7 @@ function Login() {
 					className="text-sm underline text-blue-500"
 					to={"/forgot-password"}
 				>
-					Forgot password
+					glömt ditt lösenord
 				</Link>
 
 				<button
@@ -105,12 +105,12 @@ function Login() {
 
 				<div className="mt-2">
 					<p className="text-center text-sm">
-						Don't have an account?{" "}
+						Har du inget konto?{" "}
 						<Link
 							className="cursor-pointer  text-blue-600 hover:underline"
 							to={"/signup"}
 						>
-							Sign up
+							Bli Medlem
 						</Link>
 					</p>
 				</div>

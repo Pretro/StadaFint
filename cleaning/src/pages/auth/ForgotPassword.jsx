@@ -4,11 +4,11 @@ import { ModalBackdrop } from "../../components"
 import doneAnimation from "../../assets/animations/done.json"
 
 function ForgotPassword() {
-	// References to input fields
+	// Referenser till inmatningsfält
 	const emailRef = useRef()
 	const [showModal, setShowModal] = useState(false)
 
-	// Method to handle user submitting data to login
+	// Metod för att hantera användare som skickar in data för att logga in
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		setShowModal(true)
@@ -24,7 +24,7 @@ function ForgotPassword() {
 				}}
 			>
 				<h2 className="text-3xl font-semibold mb-6 text-blue-600">
-					Forgot Password
+					Glömt ditt lösenord
 				</h2>
 
 				<label className="block mb-1 text-md" htmlFor="email">
@@ -68,10 +68,10 @@ function ForgotPassword() {
 							/>
 
 							<h2 className="text-2xl font-semibold">
-								Password reset successfully
+								Lösenordsåterställning lyckades
 							</h2>
 							<p className="my-2 opacity-70">
-								A reset code has been sent to {emailRef.current.value}
+								En återställningskod har skickats till {emailRef.current.value}
 							</p>
 						</article>
 					</div>
