@@ -1,5 +1,5 @@
 {
-  "name": "cleaning",
+  "name": "fullstack-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,7 +13,11 @@
     "react": "^18.2.0",
     "react-datetime-picker": "^4.1.1",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-router-dom": "^6.4.3",
+=======
+    "react-router-dom": "^6.4.2",
+>>>>>>> 3663cf83b22757744e42ea7ce4dad6507b866d1f
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -43,7 +47,12 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+<<<<<<< HEAD
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4"
+=======
+    "postcss": "^8.4.18",
+    "tailwindcss": "^3.2.1"
+>>>>>>> 3663cf83b22757744e42ea7ce4dad6507b866d1f
   }
 }

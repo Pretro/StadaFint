@@ -1,8 +1,29 @@
+import {
+	BrowserRouter as Router,
+	Navigate,
+	Route,
+	Routes,
+} from "react-router-dom"
 
+<<<<<<< HEAD
 import { BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom"
 import { Navbar } from "./components"
 import { useAppContext } from "./contexts/AppProvider"
 import { CustomerHome, Login, Signup, AdminAllCustomers, RegisteredOrders, ForgotPassword, CustomerNewRequest, AdminAllCleaners } from "./pages"
+=======
+import { Navbar } from "./components"
+import { useAppContext } from "./contexts/AppProvider"
+import {
+	CustomerHome,
+	Login,
+	Signup,
+	AdminAllCustomers,
+	RegisteredOrders,
+	ForgotPassword,
+	CustomerNewRequest,
+	AdminAllCleaners,
+} from "./pages"
+>>>>>>> 3663cf83b22757744e42ea7ce4dad6507b866d1f
 
 const App = () => {
 	const { user } = useAppContext()
@@ -73,4 +94,7 @@ const App = () => {
 }
 
 export default App
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3663cf83b22757744e42ea7ce4dad6507b866d1f
