@@ -1,5 +1,11 @@
+import {
+	BrowserRouter as Router,
+	Navigate,
+	Route,
+	Routes,
+} from "react-router-dom"
 
-import { BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom"
+
 import { Navbar } from "./components"
 import { useAppContext } from "./contexts/AppProvider"
 import { CustomerHome, Login, Signup, AdminAllCustomers, RegisteredOrders, ForgotPassword, CustomerNewRequest, AdminAllCleaners } from "./pages"
@@ -73,4 +79,3 @@ const App = () => {
 }
 
 export default App
-
