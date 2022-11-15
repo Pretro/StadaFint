@@ -20,20 +20,16 @@ app.use('/healthz', (req, res) => res.status(200).json({ 'server status': 'healt
 // slutpunkterna för autentisering
 app.use('/auth', authRoutes)
 
-// AuthMiddleware Se till att användaren har giltig
-// referenser innan du kommer åt slutpunkterna nedan
+// AuthMiddleware Se till att användaren är giltig
 app.use(AuthMiddleware)
 
-// UserAuthMiddleware Se till att användaren existerade tidigare
-// anropar användarroutes
+// App.use anropar funktionen UserAuthMiddleware och filen userRoutes
 app.use('/user', UserAuthMiddleware, userRoutes)
 
-// AdminAuthMiddleware Se till att användaren finns och
-// har administratörsbehörighet innan du anropar adminRoutes
+// App.use anropar funktionen AdminAuthMiddleware och filen adminRoutes
 app.use('/admin', AdminAuthMiddleware, adminRoutes)
 
-// lyssnar på servern och väntar
-// databasanslutningar
+// lyssnar på servern och väntar databasanslutningar
 app.listen(process.env.PORT || 5001, async () => {
     try {
         await mongoose.connect(process.env.DB_URL, {
@@ -41,8 +37,8 @@ app.listen(process.env.PORT || 5001, async () => {
             useUnifiedTopology: true,
         })
       
-      return console.log('server ansluten')
+      return console.log('Server ansluten')
     } catch (error) {
-      console.error('fel vid anslutning till databasen', error)
+      console.error('Fel vid anslutning till databasen', error)
     }
   }) 
