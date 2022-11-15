@@ -18,7 +18,7 @@ const Navbar = () => {
      <nav className="px-4 md:px-8 bg-blue-600 h-20 absolute inset-0 bottom-auto flex items-center gap-4 text-white">
          <div className="logo hidden md:block">
              <Link className="text-2xl cursor-pointer" to="/">
-                 Stada fint Arbetaportal
+                 Städa fint Arbetaportal
              </Link>
          </div>
 

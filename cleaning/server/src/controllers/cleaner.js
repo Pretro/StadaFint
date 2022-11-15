@@ -1,10 +1,9 @@
 const { Cleaner } = require("../helpers/schema")
 
+/* Den här funktionen kontrollerar att värdena som skickas till
+   servern är korrekta och inte förstör databasen */ 
 
-// This function helps me check that the values being sent to the
-// server are correct and would not messup the database
-// I made it a seperate function because I would be needing it in more than one place
-const sanitazeCleanerInput = (cleaner) => {
+   const sanitazeCleanerInput = (cleaner) => {
     const {userName, phoneNumber, isAvailable} = cleaner
     const {windowCleaning, premiumCleaning, standardCleaning} = cleaner?.services || {}
 
