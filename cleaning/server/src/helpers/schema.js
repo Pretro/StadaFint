@@ -1,8 +1,7 @@
 
 const mongoose = require('mongoose')
 
-// Databasschemat dvs databasstruktur
-
+// Databasschemat 
 const userSchema = new mongoose.Schema({
     fullName: String,
     email: { type: String, unique: true},

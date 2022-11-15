@@ -1,7 +1,7 @@
 const {verifyToken} = require('./token')
 const {User} = require('./schema')
 
-// Denna mellanvara säkerställer att användaren har giltiga referenser
+// Säkerställer att användaren har giltiga referenser
 const AuthMiddleware = (req, res, next) => {
     try {
       // kolla efter token annars returnerar fel
@@ -9,11 +9,11 @@ const AuthMiddleware = (req, res, next) => {
       if (!token || !token.split(' ')[1]) {
         return res.status(401).json({message: 'Obehörig'})
       }
-     // verifiera tokin och skicka användar-ID
+     // verifierar token och skickar användar-ID
       const tokenPayload = verifyToken(token.split(' ')[1])
       req.userId = tokenPayload.key
       next()
-      // kasta token verifiering
+      
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         return res.status(401).json({message: 'Obehörig'})
@@ -25,8 +25,8 @@ const AuthMiddleware = (req, res, next) => {
     }
 }
 
-// kontrollera om användaren finns och skicka användarinformationen 
-//annars returnerar felet
+/* kontrollerar om användaren finns och skickar användarinformationen 
+   annars returnerar felet*/
 const UserAuthMiddleware = async (req, res, next) => {
     try {
         const user = await User.findById(req.userId).select('+isAdmin').lean()
@@ -40,7 +40,8 @@ const UserAuthMiddleware = async (req, res, next) => {
     }
     
 }
-// kontrollera om användaren finns & är ett admin else return error
+/* kontrollerar att användaren är en admin annars returnerar den ett 
+   ett felmeddelande*/
 const AdminAuthMiddleware = async (req, res, next) => {
     try {
         const user = await User.findById(req.userId).select('+isAdmin').lean()
