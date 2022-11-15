@@ -1,18 +1,13 @@
 const express = require('express')
-// denna hjälpfunktion skulle förklaras i filerna
 const {Service, User} = require('../helpers/schema')
 const {serviceStatus} = require('../helpers/constants')
 const {createCleaner, getCleaners, updateCleaner} = require ('../controllers/cleaner')
 const {getUsers} = require('../controllers/user')
 const router = express.Router()
 
-// routerfunktionen skapar en grupp av ruttobjekt som skickas till huvudappen
-// routes i den här gruppen skulle förlänga vägen för routern i huvudappen
-// dvs '/users' skulle vara '/admin/users' eftersom den här routern är registrerad som
-// '/admin' i huvudappen
-
 // admin får listan över alla användare och returnerar resultatet
 router.get('/users', getUsers)
+
 // admin får listan över alla begärda tjänster och returresultat
 router.get('/services', async (req, res) => {
     try {
@@ -24,7 +19,7 @@ router.get('/services', async (req, res) => {
     }
 })
 
-// admin ta bort en användare med hans id, dvs :userId & returnera listan över de återstående användarna
+// admin ta bort en användare med hans id, dvs :userId och returnerar listan över de återstående användarna
 router.delete('/user/:userId', async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.userId)
@@ -33,6 +28,7 @@ router.delete('/user/:userId', async (req, res) => {
         res.status(500).json({message: 'Server Fel'})
     }
 })
+
 // admin raderar en tjänst med hans id i.s :service Id och returnerar listan över de återstående tjänsterna
 router.delete('/service/:serviceId', async (req, res) => {
     try {
@@ -45,14 +41,15 @@ router.delete('/service/:serviceId', async (req, res) => {
     }
 })
 
-// admin uppdatera en användare med hans id, dvs :userId & returnera den nya listan med användare
+// admin uppdaterar en användare med hans id, dvs :userId och returnerar den nya listan med användare
 router.put('/user/:userId', async (req, res) => {
-    // hämta de förväntade fälten från appförfrågan
+    
+        // Tilldelar variabler till body
     let {fullName, email, phoneNumber, address} = req.body
-    // det är viktigt att serialisera e-postmeddelandet innan du sparar till databasen
     email = email.trim().toLowerCase()
     try {
-        // hitta & uppdatera
+        
+        // Hitta & uppdatera användaruppgifter
         await User.findByIdAndUpdate(req.params.userId, {fullName, email, phoneNumber, address})
         getUsers(req, res)
     } catch (error) {
@@ -62,14 +59,15 @@ router.put('/user/:userId', async (req, res) => {
         res.status(500).json({message: 'Server Fel'})
     }
 })
-// admin uppdatera en tjänst med hans id i.s :service ID och returnera den nya listan med tjänster
+
+// admin uppdaterar en tjänst med hans id i.s :service ID och returnerar den nya listan med tjänster
 router.put('/service/:serviceId', async (req, res) => {
     try {
-        // extrahera tjänsten från req
         const {status} = req.body
-        // se till att en giltig tjänst efterfrågas, därför returnerar felet
+        
+        // se till att en giltig tjänst efterfrågas, om det inte stämmer, returneras ett felmeddelande
         if(!status || !serviceStatus.includes(status)){
-            return res.status(400).json({message: 'ogiltig servicestatus'})
+            return res.status(400).json({message: 'Ogiltig servicestatus'})
         }
         await Service.findByIdAndUpdate(req.params.serviceId, {status})
         const service = await Service.find({}).populate('customer')
