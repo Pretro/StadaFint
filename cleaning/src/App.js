@@ -5,10 +5,32 @@ import {
 	Routes,
 } from "react-router-dom"
 
+<<<<<<< HEAD
 
 import { Navbar } from "./components"
 import { useAppContext } from "./contexts/AppProvider"
 import { CustomerHome, Login, Signup, AdminAllCustomers, RegisteredOrders, ForgotPassword, CustomerNewRequest, AdminAllCleaners } from "./pages"
+=======
+<<<<<<< HEAD
+import { BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom"
+import { Navbar } from "./components"
+import { useAppContext } from "./contexts/AppProvider"
+import { CustomerHome, Login, Signup, AdminAllCustomers, RegisteredOrders, ForgotPassword, CustomerNewRequest, AdminAllCleaners } from "./pages"
+=======
+import { Navbar } from "./components"
+import { useAppContext } from "./contexts/AppProvider"
+import {
+	CustomerHome,
+	Login,
+	Signup,
+	AdminAllCustomers,
+	RegisteredOrders,
+	ForgotPassword,
+	CustomerNewRequest,
+	AdminAllCleaners,
+} from "./pages"
+>>>>>>> 3663cf83b22757744e42ea7ce4dad6507b866d1f
+>>>>>>> 191d316d070e1761807d64baf8def3e977f8f604
 
 const App = () => {
 	const { user } = useAppContext()
@@ -79,3 +101,10 @@ const App = () => {
 }
 
 export default App
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3663cf83b22757744e42ea7ce4dad6507b866d1f
+>>>>>>> 191d316d070e1761807d64baf8def3e977f8f604
