@@ -11,7 +11,7 @@ const RegisteredOrders = () => {
 	const [orders, setOrders] = useState(null)
 	const [isLoading, setIsLoading] = useState(false)
 
-	// Method som hämtar ordrar och deras status
+	// Funktion som hämtar ordrar och deras status
 	async function fetchOrders() {
 		setIsLoading(true)
 		try {
@@ -29,7 +29,7 @@ const RegisteredOrders = () => {
 		}
 	}
 
-	// Startar metoden som hämtar ordrar
+	// Startar funktionen som hämtar ordrar
 	useEffect(() => {
 		fetchOrders()
 		// eslint-disable-next-line react-hooks/exhaustive-deps

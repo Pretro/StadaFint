@@ -10,7 +10,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import DateTimePicker from "react-datetime-picker"
 
-// Constanter för olika typer av städtjänster
+// Kontruktörer för olika typer av städtjänster
 const CLEANING_TYPES = [
 	{
 		id: "1",
@@ -73,7 +73,7 @@ const CustomerNewRequest = () => {
 		}
 	}
 
-	// Method som väljer typ av tjönst
+	// Funktion som väljer typ av tjönst
 	const handleSubmit = async (cleanerId) => {
 		setIsLoading(true)
 		try {
@@ -102,7 +102,7 @@ const CustomerNewRequest = () => {
 		}
 	}
 
-	// Method som hanterar vilken typ av tjänst som har valts
+	// Funktion som hanterar vilken typ av tjänst som har valts
 	const selectCleaner = async (cleanerId) => {
 		
 		if (!selectedCleaningType)
@@ -119,7 +119,6 @@ const CustomerNewRequest = () => {
 	}, [])
 
 	return (
-		//  ${selectedCleaningType === 'type.state' ? 'bg-blue-900' : 'bg-blue-500'}
 		<div className="bg-gray-100 min-h-screen grid place-items-center">
 			{isLoading && <Loader />}
 
@@ -128,11 +127,10 @@ const CustomerNewRequest = () => {
 					Please select the type of cleaning you want
 				</h1>
 				<div className="flex flex-col md:flex-row gap-4 mt-4 ">
-					{/* List of available cleaning types */}
+					{/* Lista över tillgängliga rengöringstyper */}
 					{CLEANING_TYPES.map((type) => (
 						<article
 							key={type.id}
-							// handleSubmit(type.title)
 							onClick={() => {
 								setSelectedCleaningType(type.state)
 							}}
@@ -155,13 +153,11 @@ const CustomerNewRequest = () => {
 						<DateTimePicker
 							onChange={setDateTimeValue}
 							value={dateTimeValue}
-							// autoFocus
 							// State Tracking
 							onCalendarOpen={() => setCalendarIsOpen(true)}
 							onCalendarClose={() => setCalendarIsOpen(false)}
 							onClockOpen={() => setClockIsOpen(true)}
 							onClockClose={() => setClockIsOpen(false)}
-							// State Tracking
 							dayPlaceholder="DD"
 							monthPlaceholder="MM"
 							yearPlaceholder="YYYY"
@@ -242,7 +238,6 @@ const CustomerNewRequest = () => {
 
 								<tbody>
 									{/* Lista av alla städare */}
-
 									{cleaners?.map((cleaner) => (
 										<tr
 											onClick={() => {
@@ -267,8 +262,8 @@ const CustomerNewRequest = () => {
 													}`}
 												>
 													{cleaner.isAvailable
-														? "tillgängligt"
-														: "inte tillgänglig"}
+														? "Tillgängligt"
+														: "Inte tillgänglig"}
 												</span>
 											</td>
 										</tr>

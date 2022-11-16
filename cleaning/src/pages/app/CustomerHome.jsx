@@ -59,7 +59,7 @@ const Home = () => {
 					</thead>
 
 					<tbody>
-						{/* List of all previous requests */}
+						{/* Lista över alla tidigare förfrågningar */}
 						{previousRequests?.map((request) => (
 							<tr
 								key={request._id}

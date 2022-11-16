@@ -22,7 +22,7 @@ const AllCustomers = () => {
 		email: "",
 	})
 
-	// Metod för att hämta alla kunder från DB
+	// Funktion för att hämta alla användare från DB
 	async function fetchCustomers() {
 		setIsLoading(true)
 		try {
@@ -40,13 +40,13 @@ const AllCustomers = () => {
 		}
 	}
 
-	// Hämta kunderna när komponenten är monterad
+	// Hämtar kunderna 
 	useEffect(() => {
 		fetchCustomers()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// Method som skcikar en request till servern för att radera en användare
+	// Funktion som skcikar en request till servern för att radera en användare
 	const handleDeleteUser = async () => {
 		// Bekräftar att användaren har blivit raderat
 		if (!userIdToDelete) return
@@ -70,18 +70,18 @@ const AllCustomers = () => {
 		}
 	}
 
-	// Uppdaterar användaren information
+	// Uppdaterar användar information
 	const handleSubmitUserEditInfo = async (e) => {
 		e.preventDefault()
 
-		// Validerar variabler
+		// Checkar om alla fält är ifyllda
 		if (
 			!updateUserForm.address ||
 			!updateUserForm.email ||
 			!updateUserForm.fullName ||
 			!updateUserForm.phoneNumber
 		)
-			return alert("Please ensure all fields are filled")
+			return alert("Se till att alla fält är ifyllda")
 		setIsLoading(true)
 
 		// Skickar en request till servern
@@ -141,7 +141,7 @@ const AllCustomers = () => {
 								<div className="flex gap-3 items-center">
 									<img
 										onClick={() => {
-                                            // Överför data av alla kunder för att uppdateras, detta gör att formulären kan veta den aktuella kundens data
+                                            // Händelse som uppdaterar kundens information vid click på uppdaterar ikonen 
 											setUpdateUserForm({
 												id: customer._id,
 												fullName: customer.fullName,
@@ -158,7 +158,7 @@ const AllCustomers = () => {
 									/>
 									<img
 										onClick={() => {
-                                            // Öppna modal för att bekräfta om kunder borde raderas
+                                            // Vid click bekräfta om kunden ska raderas
 											setShowDeleteModal(true)
 											// Set user ID so the component knows what user to delete
 											setUserIdToDelete(customer._id)

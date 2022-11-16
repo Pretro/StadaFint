@@ -7,7 +7,7 @@ const Navbar = () => {
  // Hämtar data från appens context
  const { setUser, user, setToken } = useAppContext()
 
- // Metod för att logga ut en användare
+ // Funktion för att logga ut en användare
  const logout = () => {
      setUser(null)
      setToken(null)
@@ -23,7 +23,6 @@ const Navbar = () => {
          </div>
 
          <ul className="gap-8 items-center ml-auto hidden md:flex">
-             {/* Rendar länkar dynamiskt även om användaren är admin eller inte */}
              {user?.isAdmin && (
                  <li>
                      <Link to={"/all-customers"}>Kunder</Link>
@@ -43,16 +42,9 @@ const Navbar = () => {
 
          <ul className="flex items-center ml-auto">
              {user && (
-                 <li
-                     onClick={logout}
-                     className="ml-12 flex gap-2 items-center cursor-pointer"
-                 >
+                 <li onClick={logout} className="ml-12 flex gap-2 items-center cursor-pointer">
                      <div className="bg-gray-100 rounded-full w-9 h-9 p-1">
-                         <img
-                             className="w-7 opacity-40"
-                             src={userIcon}
-                             alt="user"
-                         />
+                         <img className="w-7 opacity-40" src={userIcon} alt="user"/>
                      </div>
                      <div className="hover:underline">
                          <p className="text-sm">
@@ -61,8 +53,8 @@ const Navbar = () => {
                          <p className="text-sm">Logout</p>
                      </div>
                  </li>
-             )}
-         </ul>
+            )}
+        </ul>
 
          <div className="ml-4 md:hidden">
              <i className="fa-lg fa-solid fa-bars"></i>

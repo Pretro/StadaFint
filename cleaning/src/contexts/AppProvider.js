@@ -10,7 +10,7 @@ const AppProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
-		// Metod som sparar användarverifierad status är att användaren har loggat in tidigare och inte loggat ut
+		// Funktion som verifierar status på användaren, om den inte finns, laddas det inte
 		async function persistUser() {
 			setIsLoading(true)
 			const token = localStorage.getItem("accessToken")
@@ -34,9 +34,9 @@ const AppProvider = ({ children }) => {
 			} catch (err) {
 				setIsLoading(false)
 				if (err.response?.data) {
-					alert("Something failed. " + err.response?.data.message)
+					alert("Opps, Något misslyckades." + err.response?.data.message)
 				} else {
-					alert("Something failed. " + err.message)
+					alert("Opps, Något misslyckades." + err.message)
 				}
 				console.log(err.response?.data || err.message)
 			}
@@ -45,9 +45,7 @@ const AppProvider = ({ children }) => {
 		persistUser()
 	}, [])
 
-//	return <div>context</div>
-
-	// om user check inte har avslutats visas loader
+	// Visar loader
 	if (isLoading) {
 		return <Loader/>
 	}

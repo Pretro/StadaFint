@@ -71,10 +71,9 @@ const AllCleaners = () => {
 		}
 	}
 
-	// Hämta städarna när komponenten är monterad
+	// Hämta städarna 
 	useEffect(() => {
 		fetchCleaners()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	return (
@@ -136,7 +135,7 @@ const AllCleaners = () => {
 					</thead>
 
 					<tbody>
-						{/* List av alla customers */}
+						{/* Lista av alla städare */}
 						{cleaners?.map((cleaner) => (
 							<tr
 								key={cleaner._id}
