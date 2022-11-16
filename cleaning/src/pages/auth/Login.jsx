@@ -1,49 +1,45 @@
 import React, { useRef, useState } from "react"
 import { Link } from "react-router-dom"
-
 import { axios } from "../../config"
 import { useAppContext } from "../../contexts/AppProvider"
 import Loader from "../../components/Loader"
 
 function Login() {
 	const { setUser, setToken } = useAppContext()
-
 	const [isLoading, setIsLoading] = useState(false)
-
-	// References to input fields
 	const emailRef = useRef()
 	const passwordRef = useRef()
 
-	// Method to handle user submitting data to login
+	// Metod för att hantera användare som skickar in data för att logga in
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		setIsLoading(true)
 
 		try {
-			// Request to server using user email and password to get the auth jwt token
+			// Funktion som veriferar email och lösenord för att kunna logga in
 			const { data } = await axios.post("/auth/login", {
 				email: emailRef.current.value,
 				password: passwordRef.current.value,
 			})
 
-			// Request to server to get user's information by passing the auth token as authorization header
+			// Verifrerar informationen
 			const { data: user } = await axios.get("/user", {
 				headers: {
 					authorization: "Bearer " + data.token,
 				},
 			})
-			// Update app context
 			setToken(data.token)
 			setUser(user)
-			// Set auth token to localstorage which is to be used for persisting user authentication
+			
+			// Ställ in autentiseringstoken till lokal lagring som ska användas för att bekröfta användarautentisering
 			localStorage.setItem("accessToken", data.token)
 		} catch (err) {
 			localStorage.removeItem("accessToken")
 			setIsLoading(false)
 			if (err.response?.data) {
-				alert("Failed to login. " + err.response?.data.message)
+				alert("Kunde inte logga in. " + err.response?.data.message)
 			} else {
-				alert("Failed to login. " + err.message)
+				alert("Kunde inte logga in " + err.message)
 			}
 			console.log(err.response?.data || err.message)
 		}

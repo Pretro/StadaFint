@@ -5,23 +5,18 @@ import Loader from "../../components/Loader"
 
 function Signup() {
 	const navigate = useNavigate()
-
 	const [isLoading, setIsLoading] = useState(false)
-
-	// References to input fields
 	const nameRef = useRef()
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const phoneRef = useRef()
 	const addressRef = useRef()
-
-	// Method to handle submitting user's data for registration and then logging in
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		setIsLoading(true)
 
 		try {
-			// Send request to server to register the user
+			//Skicka begäran till servern för att registrera användaren
 			const { status } = await axios.post("/auth/register", {
 				fullName: nameRef.current.value,
 				email: emailRef.current.value,
@@ -30,7 +25,7 @@ function Signup() {
 				address: addressRef.current.value,
 			})
 
-			// Navigate to Login screen for user to log in
+			// Navigera till inloggningsskärmen för att logga in
 			if (status === 200) {
 				navigate("/login")
 			}

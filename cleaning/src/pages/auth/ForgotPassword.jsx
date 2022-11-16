@@ -4,11 +4,10 @@ import { ModalBackdrop } from "../../components"
 import doneAnimation from "../../assets/animations/done.json"
 
 function ForgotPassword() {
-	// References to input fields
 	const emailRef = useRef()
 	const [showModal, setShowModal] = useState(false)
 
-	// Method to handle user submitting data to login
+	// Metod för att hantera användare som skickar in data för att logga in
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		setShowModal(true)
