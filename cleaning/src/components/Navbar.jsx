@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 import userIcon from "../assets/icons/user.png"
+import UserIcon from "../assets/icons/102627240.png"
 import { useAppContext } from "../contexts/AppProvider"
 
 const Navbar = () => {
@@ -16,8 +17,10 @@ const Navbar = () => {
 
  return (
      <nav className="px-4 md:px-8 bg-blue-600 h-20 absolute inset-0 bottom-auto flex items-center gap-4 text-white">
-         <div className="logo hidden md:block">
+         <div className="logo hidden items-center gap-2  md:flex">
+            <img src={UserIcon} alt="logo" className='w-10 h-10' />
              <Link className="text-2xl cursor-pointer" to="/">
+                
                  Städa fint Arbetaportal
              </Link>
          </div>
